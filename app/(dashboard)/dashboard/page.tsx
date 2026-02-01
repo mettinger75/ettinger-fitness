@@ -11,11 +11,15 @@ export default function DashboardPage() {
     <div className="space-y-6">
       <WelcomeBanner />
       <StatsRow />
-      <div className="grid grid-cols-1 lg:grid-cols-[2fr_1fr] gap-6">
-        <WeeklyActivityChart />
-        <ActiveGoals />
+      <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
+        <div className="lg:col-span-3">
+          <WeeklyActivityChart />
+        </div>
+        <div className="lg:col-span-2">
+          <ActiveGoals />
+        </div>
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <RecentActivity />
         <RecentAchievements />
       </div>

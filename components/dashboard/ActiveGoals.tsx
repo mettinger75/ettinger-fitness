@@ -1,20 +1,21 @@
-"use client";
-import { Card } from "@/components/ui/Card";
-import { SectionTitle } from "@/components/ui/SectionTitle";
-import { EmptyState } from "@/components/ui/EmptyState";
-import { Trophy, Circle, CheckCircle2 } from "lucide-react";
+'use client';
+
+import { Card } from '@/components/ui/Card';
+import { SectionTitle } from '@/components/ui/SectionTitle';
+import { Trophy, Circle, CheckCircle2 } from 'lucide-react';
 
 export function ActiveGoals() {
-  // No goals seeded
   const goals: { title: string; completed: boolean }[] = [];
 
   return (
     <Card gold>
       <SectionTitle icon={Trophy} title="Active Goals" />
       {goals.length === 0 ? (
-        <div className="text-center py-8">
-          <Trophy size={36} className="text-text-dim mx-auto mb-3" />
-          <p className="text-sm text-text-muted">No goals set yet</p>
+        <div className="flex flex-col items-center justify-center py-10 text-center">
+          <div className="w-12 h-12 rounded-xl bg-gold/10 flex items-center justify-center mb-3">
+            <Trophy size={22} className="text-gold/50" />
+          </div>
+          <p className="text-sm font-medium text-text-muted">No goals set yet</p>
           <p className="text-xs text-text-dim mt-1">Create your first goal!</p>
         </div>
       ) : (
@@ -26,7 +27,7 @@ export function ActiveGoals() {
               ) : (
                 <Circle size={18} className="text-text-dim shrink-0" />
               )}
-              <span className={`text-[13px] ${goal.completed ? "text-text-muted line-through" : "text-text-primary"}`}>
+              <span className={`text-[13px] ${goal.completed ? 'text-text-muted line-through' : 'text-text-primary'}`}>
                 {goal.title}
               </span>
             </div>

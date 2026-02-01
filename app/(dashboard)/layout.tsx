@@ -13,9 +13,11 @@ export default function DashboardLayout({
     <div className="min-h-screen bg-bg-primary">
       <Sidebar />
       <MobileSidebar />
-      <div className="lg:ml-16">
+      <div className="lg:pl-16 min-h-screen flex flex-col">
         <TopBar />
-        <main className="p-4 lg:p-6 max-w-7xl mx-auto">{children}</main>
+        <main className="flex-1 px-4 py-6 sm:px-6 lg:px-8 lg:py-8 max-w-[1280px] w-full mx-auto">
+          {children}
+        </main>
       </div>
     </div>
   );
