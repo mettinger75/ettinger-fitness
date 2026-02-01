@@ -14,7 +14,7 @@ export function GenerateButton({ onClick, loading, disabled }: GenerateButtonPro
       onClick={onClick}
       disabled={disabled || loading}
       className="
-        w-full py-4 rounded-xl font-semibold text-bg-primary text-lg
+        w-full py-4 rounded-xl font-semibold text-bg-primary text-lg cursor-pointer
         bg-gradient-to-r from-gold to-gold-light
         hover:from-gold-light hover:to-gold
         transition-all disabled:opacity-50 disabled:cursor-not-allowed

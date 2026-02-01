@@ -21,6 +21,7 @@ export function Card({ children, className = '', gold, hover, onClick }: CardPro
           : 'border-border-default bg-bg-card'
         }
         ${hover ? 'transition-colors hover:bg-bg-card-hover cursor-pointer' : ''}
+        ${onClick && !hover ? 'cursor-pointer' : ''}
         ${className}
       `}
     >

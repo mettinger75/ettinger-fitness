@@ -17,10 +17,10 @@ export function GoalSelector({ selected, onChange }: GoalSelectorProps) {
             key={goal}
             onClick={() => onChange(goal)}
             className={`
-              px-3 py-1.5 rounded-lg text-sm transition-colors border
+              px-3 py-1.5 rounded-lg text-sm transition-colors border cursor-pointer
               ${isSelected
                 ? 'border-gold/50 bg-gold/10 text-gold'
-                : 'border-border-default bg-bg-secondary text-text-muted hover:text-text-primary'
+                : 'border-border-default bg-bg-secondary text-text-muted hover:text-text-primary hover:border-text-dim'
               }
             `}
           >

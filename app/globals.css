@@ -1,26 +1,26 @@
 @import "tailwindcss";
 
 @theme inline {
-  --color-bg-primary: #060E1B;
-  --color-bg-secondary: #0B1628;
-  --color-bg-card: #0D1A30;
-  --color-bg-card-hover: #112240;
-  --color-bg-sidebar: #070D1A;
-  --color-bg-sidebar-hover: #0A1325;
+  --color-bg-primary: #0F172A;
+  --color-bg-secondary: #1E293B;
+  --color-bg-card: #1E293B;
+  --color-bg-card-hover: #334155;
+  --color-bg-sidebar: #0F172A;
+  --color-bg-sidebar-hover: #1E293B;
 
-  --color-gold: #C9A227;
+  --color-gold: #D4A843;
   --color-gold-light: #E8D48B;
-  --color-gold-dim: #6B5A1A;
+  --color-gold-dim: #8B7A3A;
 
-  --color-navy: #132D5E;
-  --color-navy-light: #1B3D78;
-  --color-navy-bright: #2563EB;
+  --color-navy: #1E3A5F;
+  --color-navy-light: #2B4A72;
+  --color-navy-bright: #3B82F6;
 
-  --color-text-primary: #E4E8F1;
-  --color-text-muted: #7B8FB0;
-  --color-text-dim: #3D4F6F;
+  --color-text-primary: #F1F5F9;
+  --color-text-muted: #94A3B8;
+  --color-text-dim: #64748B;
 
-  --color-border-default: #152035;
+  --color-border-default: #334155;
 
   --color-accent-green: #22C55E;
   --color-accent-red: #EF4444;
@@ -28,31 +28,31 @@
   --color-accent-blue: #3B82F6;
   --color-accent-sky: #38BDF8;
   --color-accent-purple: #A78BFA;
-  --color-accent-pink: #E879A8;
+  --color-accent-pink: #F472B6;
 
   --font-display: "Bebas Neue", sans-serif;
   --font-body: "Outfit", sans-serif;
 }
 
 :root {
-  --bg-primary: #060E1B;
-  --bg-secondary: #0B1628;
-  --bg-card: #0D1A30;
-  --bg-card-hover: #112240;
-  --bg-sidebar: #070D1A;
-  --bg-sidebar-hover: #0A1325;
-  --gold: #C9A227;
+  --bg-primary: #0F172A;
+  --bg-secondary: #1E293B;
+  --bg-card: #1E293B;
+  --bg-card-hover: #334155;
+  --bg-sidebar: #0F172A;
+  --bg-sidebar-hover: #1E293B;
+  --gold: #D4A843;
   --gold-light: #E8D48B;
-  --gold-dim: #6B5A1A;
-  --gold-bg: rgba(201, 162, 39, 0.08);
-  --navy: #132D5E;
-  --navy-light: #1B3D78;
-  --navy-bright: #2563EB;
-  --text-primary: #E4E8F1;
-  --text-muted: #7B8FB0;
-  --text-dim: #3D4F6F;
-  --border-default: #152035;
-  --border-gold: rgba(201, 162, 39, 0.25);
+  --gold-dim: #8B7A3A;
+  --gold-bg: rgba(212, 168, 67, 0.1);
+  --navy: #1E3A5F;
+  --navy-light: #2B4A72;
+  --navy-bright: #3B82F6;
+  --text-primary: #F1F5F9;
+  --text-muted: #94A3B8;
+  --text-dim: #64748B;
+  --border-default: #334155;
+  --border-gold: rgba(212, 168, 67, 0.25);
 }
 
 * {
@@ -63,6 +63,10 @@
 
 html {
   color-scheme: dark;
+}
+
+button, [role="button"], a, select, input[type="checkbox"], input[type="radio"] {
+  cursor: pointer;
 }
 
 body {

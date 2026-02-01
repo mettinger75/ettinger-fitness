@@ -203,7 +203,7 @@ export function MeetHistory() {
                           {r.note && (
                             <Badge
                               label={r.note}
-                              color={r.note.includes('PB') || r.note.includes('WIN') || r.note.includes('NEW') ? '#22C55E' : '#7B8FB0'}
+                              color={r.note.includes('PB') || r.note.includes('WIN') || r.note.includes('NEW') ? '#22C55E' : '#94A3B8'}
                               className="text-[10px]"
                             />
                           )}

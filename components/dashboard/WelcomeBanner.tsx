@@ -13,7 +13,7 @@ export function WelcomeBanner() {
     <div
       className="relative rounded-2xl border p-6 lg:p-8 overflow-hidden"
       style={{
-        background: `linear-gradient(135deg, #0D1A30 0%, ${user.accentColor}12 60%, ${user.accentColor}06 100%)`,
+        background: `linear-gradient(135deg, #1E293B 0%, ${user.accentColor}12 60%, ${user.accentColor}06 100%)`,
         borderColor: `${user.accentColor}25`,
       }}
     >
@@ -41,7 +41,7 @@ export function WelcomeBanner() {
             <Badge key={badge} label={badge} color={user.accentColor} />
           ))}
           {user.sports.map((sport) => (
-            <Badge key={sport} label={sport} color="#7B8FB0" />
+            <Badge key={sport} label={sport} color="#94A3B8" />
           ))}
         </div>
       </div>

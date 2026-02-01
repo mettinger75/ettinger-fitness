@@ -7,7 +7,7 @@ const STATS = [
   { label: "SPG", value: "—", color: "#C9A227" },
   { label: "FG%", value: "—", color: "#38BDF8" },
   { label: "FT%", value: "—", color: "#A78BFA" },
-  { label: "Games", value: "—", color: "#7B8FB0" },
+  { label: "Games", value: "—", color: "#94A3B8" },
   { label: "Record", value: "—", color: "#22C55E" },
 ];
 
@@ -22,7 +22,7 @@ export function SeasonAverages() {
             className="bg-bg-card border border-border-default rounded-xl p-3 text-center hover:bg-bg-card-hover transition-all"
           >
             <p className="text-[10px] uppercase tracking-wider text-text-muted mb-1">{stat.label}</p>
-            <p className="font-display text-[20px] sm:text-[24px] leading-none" style={{ color: stat.value === "—" ? "#3D4F6F" : stat.color }}>
+            <p className="font-display text-[20px] sm:text-[24px] leading-none" style={{ color: stat.value === "—" ? "#64748B" : stat.color }}>
               {stat.value}
             </p>
           </div>

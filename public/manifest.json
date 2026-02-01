@@ -4,8 +4,8 @@
   "description": "Premium family fitness dashboard",
   "start_url": "/dashboard",
   "display": "standalone",
-  "background_color": "#060E1B",
-  "theme_color": "#060E1B",
+  "background_color": "#0F172A",
+  "theme_color": "#0F172A",
   "icons": [
     {
       "src": "/favicon.ico",

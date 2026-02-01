@@ -41,7 +41,7 @@ function getStatusColor(status?: string): string {
     case 'Close':
     case 'Achievable': return '#38BDF8';
     case 'Building': return '#FB923C';
-    default: return '#7B8FB0';
+    default: return '#94A3B8';
   }
 }
 
