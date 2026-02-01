@@ -1,62 +1,96 @@
 "use client";
 import { useUserStore } from "@/lib/store/useUserStore";
+import { useFitnessStore } from "@/lib/store/useFitnessStore";
 import { StatCard } from "@/components/ui/StatCard";
 import {
   Dumbbell, Flame, Clock, Activity, Droplets,
   TrendingUp, Award, Target, Star, Trophy, Zap,
 } from "lucide-react";
+import type { LucideIcon } from "lucide-react";
 
-function getStatsForUser(userId: string) {
-  switch (userId) {
-    case "mark":
-      return [
-        { icon: Dumbbell, label: "Workouts", value: "—", accentColor: "#C9A227" },
-        { icon: Flame, label: "Calories", value: "—", accentColor: "#C9A227" },
-        { icon: Clock, label: "Active Min", value: "—", accentColor: "#C9A227" },
-        { icon: Activity, label: "Weight", value: "—", accentColor: "#C9A227" },
-      ];
-    case "gena":
-      return [
-        { icon: Dumbbell, label: "Workouts", value: "—", accentColor: "#E879A8" },
-        { icon: Flame, label: "Calories", value: "—", accentColor: "#E879A8" },
-        { icon: Clock, label: "Active Min", value: "—", accentColor: "#E879A8" },
-        { icon: Activity, label: "Weight", value: "—", accentColor: "#E879A8" },
-      ];
-    case "eli":
-      return [
-        { icon: Droplets, label: "Practices", value: "—", accentColor: "#38BDF8" },
-        { icon: TrendingUp, label: "Yardage", value: "—", accentColor: "#38BDF8" },
-        { icon: Award, label: "Best Times", value: "5", accentColor: "#38BDF8" },
-        { icon: Activity, label: "SWOLF", value: "—", accentColor: "#38BDF8" },
-      ];
-    case "gavin":
-      return [
-        { icon: Target, label: "PPG", value: "—", accentColor: "#FB923C" },
-        { icon: Star, label: "APG", value: "—", accentColor: "#FB923C" },
-        { icon: Trophy, label: "Record", value: "—", accentColor: "#FB923C" },
-        { icon: Dumbbell, label: "Practices", value: "—", accentColor: "#FB923C" },
-      ];
-    case "savannah":
-      return [
-        { icon: Star, label: "Activities", value: "—", accentColor: "#A78BFA" },
-        { icon: Clock, label: "Active Min", value: "—", accentColor: "#A78BFA" },
-        { icon: Zap, label: "New Skills", value: "—", accentColor: "#A78BFA" },
-        { icon: Trophy, label: "Sports", value: "—", accentColor: "#A78BFA" },
-      ];
-    default:
-      return [
-        { icon: Dumbbell, label: "Workouts", value: "—", accentColor: "#C9A227" },
-        { icon: Flame, label: "Calories", value: "—", accentColor: "#C9A227" },
-        { icon: Clock, label: "Active Min", value: "—", accentColor: "#C9A227" },
-        { icon: Activity, label: "Weight", value: "—", accentColor: "#C9A227" },
-      ];
-  }
+function today(): string {
+  return new Date().toISOString().split("T")[0];
+}
+
+function startOfWeek(): string {
+  const d = new Date();
+  d.setDate(d.getDate() - d.getDay());
+  return d.toISOString().split("T")[0];
+}
+
+interface StatDef {
+  icon: LucideIcon;
+  label: string;
+  value: string;
+  accentColor: string;
 }
 
 export function StatsRow() {
   const getActiveUser = useUserStore((s) => s.getActiveUser);
   const user = getActiveUser();
-  const stats = getStatsForUser(user.id);
+
+  const activities = useFitnessStore((s) => s.getActivitiesForUser(user.id));
+  const meals = useFitnessStore((s) => s.getMealsForUser(user.id, today()));
+  const metrics = useFitnessStore((s) => s.getMetricsForUser(user.id));
+  const workouts = useFitnessStore((s) => s.getWorkoutsForUser(user.id));
+  const games = useFitnessStore((s) => s.getGamesForUser(user.id));
+
+  const weekStart = startOfWeek();
+  const weekActivities = activities.filter((a) => a.date >= weekStart);
+  const weekWorkouts = workouts.filter((w) => w.date >= weekStart);
+  const todayCalories = meals.reduce((s, m) => s + m.calories, 0);
+  const weekMinutes = weekActivities.reduce((s, a) => s + a.durationMinutes, 0);
+  const latestWeight = metrics[0]?.weight;
+
+  const c = user.accentColor;
+
+  let stats: StatDef[];
+
+  switch (user.id) {
+    case "eli":
+      stats = [
+        { icon: Droplets, label: "Practices", value: weekActivities.length > 0 ? String(weekActivities.length) : "—", accentColor: c },
+        { icon: TrendingUp, label: "Yardage", value: "—", accentColor: c },
+        { icon: Award, label: "Best Times", value: "5", accentColor: c },
+        { icon: Activity, label: "SWOLF", value: "—", accentColor: c },
+      ];
+      break;
+    case "gavin": {
+      const n = games.length;
+      const ppg = n > 0 ? (games.reduce((s, g) => s + g.points, 0) / n).toFixed(1) : "—";
+      const apg = n > 0 ? (games.reduce((s, g) => s + g.assists, 0) / n).toFixed(1) : "—";
+      const wins = games.filter((g) => g.result.toUpperCase().startsWith("W")).length;
+      const record = n > 0 ? `${wins}-${n - wins}` : "—";
+      stats = [
+        { icon: Target, label: "PPG", value: ppg, accentColor: c },
+        { icon: Star, label: "APG", value: apg, accentColor: c },
+        { icon: Trophy, label: "Record", value: record, accentColor: c },
+        { icon: Dumbbell, label: "Practices", value: weekActivities.length > 0 ? String(weekActivities.length) : "—", accentColor: c },
+      ];
+      break;
+    }
+    case "savannah": {
+      const types = new Set(activities.map((a) => a.activityType));
+      stats = [
+        { icon: Star, label: "Activities", value: weekActivities.length > 0 ? String(weekActivities.length) : "—", accentColor: c },
+        { icon: Clock, label: "Active Min", value: weekMinutes > 0 ? String(weekMinutes) : "—", accentColor: c },
+        { icon: Zap, label: "New Skills", value: types.size > 0 ? String(types.size) : "—", accentColor: c },
+        { icon: Trophy, label: "Sports", value: String(user.sports.length), accentColor: c },
+      ];
+      break;
+    }
+    default: {
+      // mark, gena, and fallback
+      const totalWorkouts = weekWorkouts.length + weekActivities.length;
+      stats = [
+        { icon: Dumbbell, label: "Workouts", value: totalWorkouts > 0 ? String(totalWorkouts) : "—", accentColor: c },
+        { icon: Flame, label: "Calories", value: todayCalories > 0 ? String(todayCalories) : "—", accentColor: c },
+        { icon: Clock, label: "Active Min", value: weekMinutes > 0 ? String(weekMinutes) : "—", accentColor: c },
+        { icon: Activity, label: "Weight", value: latestWeight ? `${latestWeight}` : "—", accentColor: c },
+      ];
+      break;
+    }
+  }
 
   return (
     <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">

@@ -1,13 +1,16 @@
 'use client';
 
 import { useState } from 'react';
-import { Sparkles } from 'lucide-react';
+import { Sparkles, Save } from 'lucide-react';
 import { SectionTitle } from '@/components/ui/SectionTitle';
 import { EquipmentSelector } from '@/components/workouts/EquipmentSelector';
 import { GoalSelector } from '@/components/workouts/GoalSelector';
 import { GenerateButton } from '@/components/workouts/GenerateButton';
 import { GeneratedWorkout } from '@/components/workouts/GeneratedWorkout';
 import { RecentWods } from '@/components/workouts/RecentWods';
+import { Button } from '@/components/ui/Button';
+import { useUserStore } from '@/lib/store/useUserStore';
+import { useFitnessStore } from '@/lib/store/useFitnessStore';
 
 const SAMPLE_WORKOUT = {
   title: 'FULL BODY BLITZ',
@@ -48,18 +51,35 @@ const SAMPLE_WORKOUT = {
   ],
 };
 
+function today(): string {
+  return new Date().toISOString().split('T')[0];
+}
+
 export default function WorkoutsPage() {
   const [equipment, setEquipment] = useState<string[]>([]);
   const [goal, setGoal] = useState('');
   const [generated, setGenerated] = useState(false);
+  const [saved, setSaved] = useState(false);
+
+  const getActiveUser = useUserStore((s) => s.getActiveUser);
+  const user = getActiveUser();
+  const addWorkout = useFitnessStore((s) => s.addWorkout);
 
   const handleGenerate = () => {
     setGenerated(true);
+    setSaved(false);
+  };
+
+  const handleSave = () => {
+    addWorkout(user.id, {
+      date: today(),
+      ...SAMPLE_WORKOUT,
+    });
+    setSaved(true);
   };
 
   return (
     <div className="space-y-8 animate-fade-up">
-      {/* Config */}
       <div className="space-y-6">
         <SectionTitle icon={Sparkles} title="AI Workout Generator" />
 
@@ -76,10 +96,17 @@ export default function WorkoutsPage() {
         <GenerateButton onClick={handleGenerate} disabled={!goal} />
       </div>
 
-      {/* Generated Result */}
-      {generated && <GeneratedWorkout {...SAMPLE_WORKOUT} />}
+      {generated && (
+        <>
+          <GeneratedWorkout {...SAMPLE_WORKOUT} />
+          <div className="flex justify-center">
+            <Button variant="outline" size="sm" onClick={handleSave} disabled={saved}>
+              <Save size={14} /> {saved ? 'Saved!' : 'Save Workout'}
+            </Button>
+          </div>
+        </>
+      )}
 
-      {/* Recent */}
       <RecentWods />
     </div>
   );
