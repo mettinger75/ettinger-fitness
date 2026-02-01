@@ -1,0 +1,33 @@
+export const COLORS = {
+  gold: '#C9A227',
+  goldLight: '#E8D48B',
+  goldDim: '#6B5A1A',
+  navy: '#132D5E',
+  navyLight: '#1B3D78',
+  navyBright: '#2563EB',
+  green: '#22C55E',
+  red: '#EF4444',
+  orange: '#FB923C',
+  blue: '#3B82F6',
+  sky: '#38BDF8',
+  purple: '#A78BFA',
+  pink: '#E879A8',
+  textPrimary: '#E4E8F1',
+  textMuted: '#7B8FB0',
+  textDim: '#3D4F6F',
+  bgPrimary: '#060E1B',
+  bgSecondary: '#0B1628',
+  bgCard: '#0D1A30',
+  bgCardHover: '#112240',
+  borderDefault: '#152035',
+} as const;
+
+export const CHART_COLORS = [
+  '#C9A227',
+  '#38BDF8',
+  '#22C55E',
+  '#FB923C',
+  '#A78BFA',
+  '#E879A8',
+  '#3B82F6',
+] as const;

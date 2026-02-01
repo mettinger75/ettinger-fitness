@@ -1,0 +1,16 @@
+{
+  "name": "Ettinger Fitness",
+  "short_name": "Ettinger Fit",
+  "description": "Premium family fitness dashboard",
+  "start_url": "/dashboard",
+  "display": "standalone",
+  "background_color": "#060E1B",
+  "theme_color": "#060E1B",
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "64x64",
+      "type": "image/x-icon"
+    }
+  ]
+}
