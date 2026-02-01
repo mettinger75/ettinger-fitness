@@ -6,12 +6,12 @@ import { SectionTitle } from '@/components/ui/SectionTitle';
 import { EmptyState } from '@/components/ui/EmptyState';
 import { Card } from '@/components/ui/Card';
 import { useUserStore } from '@/lib/store/useUserStore';
-import { useFitnessStore } from '@/lib/store/useFitnessStore';
+import { useFitnessStore, selectWorkouts } from '@/lib/store/useFitnessStore';
 
 export function RecentWods() {
   const getActiveUser = useUserStore((s) => s.getActiveUser);
   const user = getActiveUser();
-  const workouts = useFitnessStore((s) => s.getWorkoutsForUser(user.id));
+  const workouts = useFitnessStore(selectWorkouts(user.id));
   const deleteWorkout = useFitnessStore((s) => s.deleteWorkout);
   const [expanded, setExpanded] = useState<string | null>(null);
 

@@ -7,7 +7,7 @@ import { Modal } from '@/components/ui/Modal';
 import { Input } from '@/components/ui/Input';
 import { Button } from '@/components/ui/Button';
 import { useUserStore } from '@/lib/store/useUserStore';
-import { useFitnessStore } from '@/lib/store/useFitnessStore';
+import { useFitnessStore, selectMetrics } from '@/lib/store/useFitnessStore';
 
 function today(): string {
   return new Date().toISOString().split('T')[0];
@@ -17,7 +17,7 @@ export function WeightCards() {
   const [modalOpen, setModalOpen] = useState(false);
   const getActiveUser = useUserStore((s) => s.getActiveUser);
   const user = getActiveUser();
-  const metrics = useFitnessStore((s) => s.getMetricsForUser(user.id));
+  const metrics = useFitnessStore(selectMetrics(user.id));
   const addMetric = useFitnessStore((s) => s.addMetric);
 
   const latest = metrics[0];

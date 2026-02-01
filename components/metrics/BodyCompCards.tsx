@@ -3,12 +3,12 @@
 import { Ruler, CircleDot, ArrowUpDown, Scaling } from 'lucide-react';
 import { StatCard } from '@/components/ui/StatCard';
 import { useUserStore } from '@/lib/store/useUserStore';
-import { useFitnessStore } from '@/lib/store/useFitnessStore';
+import { useFitnessStore, selectMetrics } from '@/lib/store/useFitnessStore';
 
 export function BodyCompCards() {
   const getActiveUser = useUserStore((s) => s.getActiveUser);
   const user = getActiveUser();
-  const metrics = useFitnessStore((s) => s.getMetricsForUser(user.id));
+  const metrics = useFitnessStore(selectMetrics(user.id));
   const latest = metrics[0];
 
   return (

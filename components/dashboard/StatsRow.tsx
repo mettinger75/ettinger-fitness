@@ -1,6 +1,6 @@
 "use client";
 import { useUserStore } from "@/lib/store/useUserStore";
-import { useFitnessStore } from "@/lib/store/useFitnessStore";
+import { useFitnessStore, selectActivities, selectMeals, selectMetrics, selectWorkouts, selectGames } from "@/lib/store/useFitnessStore";
 import { StatCard } from "@/components/ui/StatCard";
 import {
   Dumbbell, Flame, Clock, Activity, Droplets,
@@ -29,11 +29,12 @@ export function StatsRow() {
   const getActiveUser = useUserStore((s) => s.getActiveUser);
   const user = getActiveUser();
 
-  const activities = useFitnessStore((s) => s.getActivitiesForUser(user.id));
-  const meals = useFitnessStore((s) => s.getMealsForUser(user.id, today()));
-  const metrics = useFitnessStore((s) => s.getMetricsForUser(user.id));
-  const workouts = useFitnessStore((s) => s.getWorkoutsForUser(user.id));
-  const games = useFitnessStore((s) => s.getGamesForUser(user.id));
+  const activities = useFitnessStore(selectActivities(user.id));
+  const allMeals = useFitnessStore(selectMeals(user.id));
+  const meals = allMeals.filter((m) => m.date === today());
+  const metrics = useFitnessStore(selectMetrics(user.id));
+  const workouts = useFitnessStore(selectWorkouts(user.id));
+  const games = useFitnessStore(selectGames(user.id));
 
   const weekStart = startOfWeek();
   const weekActivities = activities.filter((a) => a.date >= weekStart);

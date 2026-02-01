@@ -1,7 +1,7 @@
 'use client';
 
 import { useUserStore } from '@/lib/store/useUserStore';
-import { useFitnessStore } from '@/lib/store/useFitnessStore';
+import { useFitnessStore, selectActivities } from '@/lib/store/useFitnessStore';
 import { Card } from '@/components/ui/Card';
 import { Clock, Dumbbell, Droplets, Target } from 'lucide-react';
 
@@ -27,7 +27,7 @@ function getIcon(userId: string) {
 export function RecentActivity() {
   const getActiveUser = useUserStore((s) => s.getActiveUser);
   const user = getActiveUser();
-  const activities = useFitnessStore((s) => s.getActivitiesForUser(user.id));
+  const activities = useFitnessStore(selectActivities(user.id));
   const recentActivities = activities.slice(0, 5);
   const EmptyIcon = getIcon(user.id);
 

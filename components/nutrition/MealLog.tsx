@@ -9,7 +9,7 @@ import { Input } from '@/components/ui/Input';
 import { Select } from '@/components/ui/Select';
 import { Button } from '@/components/ui/Button';
 import { useUserStore } from '@/lib/store/useUserStore';
-import { useFitnessStore } from '@/lib/store/useFitnessStore';
+import { useFitnessStore, selectMeals } from '@/lib/store/useFitnessStore';
 import type { Meal } from '@/lib/types/fitness';
 
 const MEAL_TYPES = [
@@ -34,7 +34,8 @@ export function MealLog() {
   const [modalOpen, setModalOpen] = useState(false);
   const getActiveUser = useUserStore((s) => s.getActiveUser);
   const user = getActiveUser();
-  const allMeals = useFitnessStore((s) => s.getMealsForUser(user.id, today()));
+  const allUserMeals = useFitnessStore(selectMeals(user.id));
+  const allMeals = allUserMeals.filter((m) => m.date === today());
   const addMeal = useFitnessStore((s) => s.addMeal);
   const deleteMeal = useFitnessStore((s) => s.deleteMeal);
 

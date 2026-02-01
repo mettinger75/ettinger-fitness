@@ -4,7 +4,7 @@ import { TrendingUp } from 'lucide-react';
 import { Card } from '@/components/ui/Card';
 import { EmptyState } from '@/components/ui/EmptyState';
 import { useUserStore } from '@/lib/store/useUserStore';
-import { useFitnessStore } from '@/lib/store/useFitnessStore';
+import { useFitnessStore, selectGames } from '@/lib/store/useFitnessStore';
 import {
   ResponsiveContainer,
   LineChart,
@@ -18,7 +18,7 @@ import {
 export function ScoringTrend() {
   const getActiveUser = useUserStore((s) => s.getActiveUser);
   const user = getActiveUser();
-  const games = useFitnessStore((s) => s.getGamesForUser(user.id));
+  const games = useFitnessStore(selectGames(user.id));
 
   const chartData = [...games]
     .sort((a, b) => a.date.localeCompare(b.date))

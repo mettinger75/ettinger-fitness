@@ -19,6 +19,14 @@ function today(): string {
   return new Date().toISOString().split('T')[0];
 }
 
+// Empty arrays for stable references when user has no data
+const EMPTY_ACTIVITIES: Activity[] = [];
+const EMPTY_WORKOUTS: Workout[] = [];
+const EMPTY_MEALS: Meal[] = [];
+const EMPTY_METRICS: BodyMetric[] = [];
+const EMPTY_GOALS: Goal[] = [];
+const EMPTY_GAMES: BasketballGame[] = [];
+
 interface FitnessState {
   activities: Record<string, Activity[]>;
   workouts: Record<string, Workout[]>;
@@ -50,19 +58,11 @@ interface FitnessState {
   // Basketball CRUD
   addBasketballGame: (userId: string, data: Omit<BasketballGame, 'id' | 'userId'>) => void;
   deleteBasketballGame: (userId: string, gameId: string) => void;
-
-  // Helpers
-  getActivitiesForUser: (userId: string) => Activity[];
-  getMealsForUser: (userId: string, date?: string) => Meal[];
-  getMetricsForUser: (userId: string) => BodyMetric[];
-  getGoalsForUser: (userId: string) => Goal[];
-  getGamesForUser: (userId: string) => BasketballGame[];
-  getWorkoutsForUser: (userId: string) => Workout[];
 }
 
 export const useFitnessStore = create<FitnessState>()(
   persist(
-    (set, get) => ({
+    (set) => ({
       activities: {},
       workouts: {},
       meals: {},
@@ -145,7 +145,7 @@ export const useFitnessStore = create<FitnessState>()(
           goals: {
             ...state.goals,
             [userId]: [
-              { ...data, id: generateId(), userId, currentValue: 0, status: 'active', createdAt: today() },
+              { ...data, id: generateId(), userId, currentValue: 0, status: 'active' as const, createdAt: today() },
               ...(state.goals[userId] ?? []),
             ],
           },
@@ -185,21 +185,18 @@ export const useFitnessStore = create<FitnessState>()(
             [userId]: (state.basketballGames[userId] ?? []).filter((g) => g.id !== gameId),
           },
         })),
-
-      // Helpers
-      getActivitiesForUser: (userId) => get().activities[userId] ?? [],
-      getMealsForUser: (userId, date) => {
-        const all = get().meals[userId] ?? [];
-        if (date) return all.filter((m) => m.date === date);
-        return all;
-      },
-      getMetricsForUser: (userId) => get().metrics[userId] ?? [],
-      getGoalsForUser: (userId) => get().goals[userId] ?? [],
-      getGamesForUser: (userId) => get().basketballGames[userId] ?? [],
-      getWorkoutsForUser: (userId) => get().workouts[userId] ?? [],
     }),
     {
       name: 'ettinger-fitness-data',
     }
   )
 );
+
+// Stable selector helpers — these return the stored array or a stable empty array
+// Use these in components: useFitnessStore(selectActivities(userId))
+export const selectActivities = (userId: string) => (s: FitnessState) => s.activities[userId] ?? EMPTY_ACTIVITIES;
+export const selectWorkouts = (userId: string) => (s: FitnessState) => s.workouts[userId] ?? EMPTY_WORKOUTS;
+export const selectMeals = (userId: string) => (s: FitnessState) => s.meals[userId] ?? EMPTY_MEALS;
+export const selectMetrics = (userId: string) => (s: FitnessState) => s.metrics[userId] ?? EMPTY_METRICS;
+export const selectGoals = (userId: string) => (s: FitnessState) => s.goals[userId] ?? EMPTY_GOALS;
+export const selectGames = (userId: string) => (s: FitnessState) => s.basketballGames[userId] ?? EMPTY_GAMES;

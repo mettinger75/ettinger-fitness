@@ -4,13 +4,13 @@ import { Card } from '@/components/ui/Card';
 import { SectionTitle } from '@/components/ui/SectionTitle';
 import { Trophy, Circle, CheckCircle2 } from 'lucide-react';
 import { useUserStore } from '@/lib/store/useUserStore';
-import { useFitnessStore } from '@/lib/store/useFitnessStore';
+import { useFitnessStore, selectGoals } from '@/lib/store/useFitnessStore';
 import Link from 'next/link';
 
 export function ActiveGoals() {
   const getActiveUser = useUserStore((s) => s.getActiveUser);
   const user = getActiveUser();
-  const allGoals = useFitnessStore((s) => s.getGoalsForUser(user.id));
+  const allGoals = useFitnessStore(selectGoals(user.id));
   const goals = allGoals.slice(0, 5);
 
   return (

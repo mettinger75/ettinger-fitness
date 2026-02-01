@@ -4,7 +4,7 @@ import { Scale } from 'lucide-react';
 import { Card } from '@/components/ui/Card';
 import { EmptyState } from '@/components/ui/EmptyState';
 import { useUserStore } from '@/lib/store/useUserStore';
-import { useFitnessStore } from '@/lib/store/useFitnessStore';
+import { useFitnessStore, selectMetrics } from '@/lib/store/useFitnessStore';
 import {
   ResponsiveContainer,
   LineChart,
@@ -18,7 +18,7 @@ import {
 export function WeightChart() {
   const getActiveUser = useUserStore((s) => s.getActiveUser);
   const user = getActiveUser();
-  const metrics = useFitnessStore((s) => s.getMetricsForUser(user.id));
+  const metrics = useFitnessStore(selectMetrics(user.id));
 
   const chartData = [...metrics]
     .filter((m) => m.weight)

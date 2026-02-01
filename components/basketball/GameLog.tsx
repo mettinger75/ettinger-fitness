@@ -9,13 +9,13 @@ import { Modal } from '@/components/ui/Modal';
 import { Input } from '@/components/ui/Input';
 import { Button } from '@/components/ui/Button';
 import { useUserStore } from '@/lib/store/useUserStore';
-import { useFitnessStore } from '@/lib/store/useFitnessStore';
+import { useFitnessStore, selectGames } from '@/lib/store/useFitnessStore';
 
 export function GameLog() {
   const [modalOpen, setModalOpen] = useState(false);
   const getActiveUser = useUserStore((s) => s.getActiveUser);
   const user = getActiveUser();
-  const games = useFitnessStore((s) => s.getGamesForUser(user.id));
+  const games = useFitnessStore(selectGames(user.id));
   const addGame = useFitnessStore((s) => s.addBasketballGame);
   const deleteGame = useFitnessStore((s) => s.deleteBasketballGame);
 

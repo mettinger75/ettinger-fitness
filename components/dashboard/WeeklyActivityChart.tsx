@@ -1,7 +1,7 @@
 'use client';
 
 import { useUserStore } from '@/lib/store/useUserStore';
-import { useFitnessStore } from '@/lib/store/useFitnessStore';
+import { useFitnessStore, selectActivities } from '@/lib/store/useFitnessStore';
 import { Card } from '@/components/ui/Card';
 import { BarChart3 } from 'lucide-react';
 import {
@@ -19,7 +19,7 @@ const DAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 export function WeeklyActivityChart() {
   const getActiveUser = useUserStore((s) => s.getActiveUser);
   const user = getActiveUser();
-  const activities = useFitnessStore((s) => s.getActivitiesForUser(user.id));
+  const activities = useFitnessStore(selectActivities(user.id));
 
   const now = new Date();
   const weekStart = new Date(now);

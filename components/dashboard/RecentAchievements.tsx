@@ -4,7 +4,7 @@ import { Card } from '@/components/ui/Card';
 import { SectionTitle } from '@/components/ui/SectionTitle';
 import { Award } from 'lucide-react';
 import { useUserStore } from '@/lib/store/useUserStore';
-import { useFitnessStore } from '@/lib/store/useFitnessStore';
+import { useFitnessStore, selectActivities, selectMeals, selectGoals, selectWorkouts, selectGames, selectMetrics } from '@/lib/store/useFitnessStore';
 
 interface Achievement {
   icon: string;
@@ -16,12 +16,12 @@ export function RecentAchievements() {
   const getActiveUser = useUserStore((s) => s.getActiveUser);
   const user = getActiveUser();
 
-  const activities = useFitnessStore((s) => s.getActivitiesForUser(user.id));
-  const meals = useFitnessStore((s) => s.getMealsForUser(user.id));
-  const goals = useFitnessStore((s) => s.getGoalsForUser(user.id));
-  const workouts = useFitnessStore((s) => s.getWorkoutsForUser(user.id));
-  const games = useFitnessStore((s) => s.getGamesForUser(user.id));
-  const metrics = useFitnessStore((s) => s.getMetricsForUser(user.id));
+  const activities = useFitnessStore(selectActivities(user.id));
+  const meals = useFitnessStore(selectMeals(user.id));
+  const goals = useFitnessStore(selectGoals(user.id));
+  const workouts = useFitnessStore(selectWorkouts(user.id));
+  const games = useFitnessStore(selectGames(user.id));
+  const metrics = useFitnessStore(selectMetrics(user.id));
 
   const achievements: Achievement[] = [];
 

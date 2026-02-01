@@ -2,7 +2,7 @@
 
 import { ProgressRing } from '@/components/ui/ProgressRing';
 import { useUserStore } from '@/lib/store/useUserStore';
-import { useFitnessStore } from '@/lib/store/useFitnessStore';
+import { useFitnessStore, selectMeals } from '@/lib/store/useFitnessStore';
 
 function today(): string {
   return new Date().toISOString().split('T')[0];
@@ -11,7 +11,8 @@ function today(): string {
 export function MacroRings() {
   const getActiveUser = useUserStore((s) => s.getActiveUser);
   const user = getActiveUser();
-  const meals = useFitnessStore((s) => s.getMealsForUser(user.id, today()));
+  const allMeals = useFitnessStore(selectMeals(user.id));
+  const meals = allMeals.filter((m) => m.date === today());
 
   const totals = meals.reduce(
     (acc, m) => ({

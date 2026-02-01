@@ -1,12 +1,12 @@
 "use client";
 
 import { useUserStore } from '@/lib/store/useUserStore';
-import { useFitnessStore } from '@/lib/store/useFitnessStore';
+import { useFitnessStore, selectGames } from '@/lib/store/useFitnessStore';
 
 export function SeasonAverages() {
   const getActiveUser = useUserStore((s) => s.getActiveUser);
   const user = getActiveUser();
-  const games = useFitnessStore((s) => s.getGamesForUser(user.id));
+  const games = useFitnessStore(selectGames(user.id));
 
   const n = games.length;
   const avg = (fn: (g: typeof games[0]) => number) =>

@@ -10,7 +10,7 @@ import { Select } from '@/components/ui/Select';
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import { useUserStore } from '@/lib/store/useUserStore';
-import { useFitnessStore } from '@/lib/store/useFitnessStore';
+import { useFitnessStore, selectGoals } from '@/lib/store/useFitnessStore';
 
 const CATEGORY_OPTIONS = [
   { value: 'strength', label: 'Strength' },
@@ -29,7 +29,7 @@ export default function GoalsPage() {
 
   const getActiveUser = useUserStore((s) => s.getActiveUser);
   const user = getActiveUser();
-  const goals = useFitnessStore((s) => s.getGoalsForUser(user.id));
+  const goals = useFitnessStore(selectGoals(user.id));
   const addGoal = useFitnessStore((s) => s.addGoal);
   const updateGoal = useFitnessStore((s) => s.updateGoal);
   const deleteGoal = useFitnessStore((s) => s.deleteGoal);
