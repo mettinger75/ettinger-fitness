@@ -13,6 +13,7 @@ import {
   Target,
   Users,
   Shield,
+  UserCircle,
   ChevronRight,
 } from 'lucide-react';
 import { useUserStore } from '@/lib/store/useUserStore';
@@ -26,6 +27,7 @@ const NAV_ITEMS = [
   { href: '/basketball', icon: CircleDot, label: 'Basketball', sport: 'Basketball' },
   { href: '/goals', icon: Target, label: 'Goals' },
   { href: '/family', icon: Users, label: 'Family Hub' },
+  { href: '/profile', icon: UserCircle, label: 'Profile' },
   { href: '/admin', icon: Shield, label: 'Admin', role: 'parent' as const },
 ];
 
@@ -97,8 +99,8 @@ export function Sidebar() {
         })}
       </nav>
 
-      {/* User Indicator */}
-      <div className="p-4 border-t border-border-default">
+      {/* User Indicator — clickable, links to profile */}
+      <Link href="/profile" className="block p-4 border-t border-border-default hover:bg-bg-sidebar-hover transition-colors">
         <div className="flex items-center">
           <div
             className="w-8 h-8 rounded-full flex items-center justify-center text-sm shrink-0"
@@ -114,7 +116,7 @@ export function Sidebar() {
             {user.name}
           </span>
         </div>
-      </div>
+      </Link>
     </aside>
   );
 }

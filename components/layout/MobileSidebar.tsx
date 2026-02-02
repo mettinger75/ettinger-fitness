@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { X, LayoutDashboard, Dumbbell, UtensilsCrossed, Scale, Waves, CircleDot, Target, Users, Shield } from 'lucide-react';
+import { X, LayoutDashboard, Dumbbell, UtensilsCrossed, Scale, Waves, CircleDot, Target, Users, Shield, UserCircle } from 'lucide-react';
 import { useAppStore } from '@/lib/store/useAppStore';
 import { useUserStore } from '@/lib/store/useUserStore';
 
@@ -15,6 +15,7 @@ const NAV_ITEMS = [
   { href: '/basketball', icon: CircleDot, label: 'Basketball', sport: 'Basketball' },
   { href: '/goals', icon: Target, label: 'Goals' },
   { href: '/family', icon: Users, label: 'Family Hub' },
+  { href: '/profile', icon: UserCircle, label: 'Profile' },
   { href: '/admin', icon: Shield, label: 'Admin', role: 'parent' as const },
 ];
 
@@ -79,8 +80,12 @@ export function MobileSidebar() {
           })}
         </nav>
 
-        {/* User */}
-        <div className="p-5 border-t border-border-default">
+        {/* User — clickable, links to profile */}
+        <Link
+          href="/profile"
+          onClick={() => setMobileSidebarOpen(false)}
+          className="block p-5 border-t border-border-default hover:bg-bg-sidebar-hover transition-colors"
+        >
           <div className="flex items-center gap-3">
             <div
               className="w-10 h-10 rounded-full flex items-center justify-center text-lg"
@@ -93,7 +98,7 @@ export function MobileSidebar() {
               <p className="text-xs text-text-muted capitalize">{user.role}</p>
             </div>
           </div>
-        </div>
+        </Link>
       </div>
     </div>
   );

@@ -1,9 +1,10 @@
 'use client';
 
+import Link from 'next/link';
 import { useUserStore } from '@/lib/store/useUserStore';
 import { useFitnessStore, selectActivities } from '@/lib/store/useFitnessStore';
 import { Card } from '@/components/ui/Card';
-import { BarChart3 } from 'lucide-react';
+import { BarChart3, ChevronRight } from 'lucide-react';
 import {
   ResponsiveContainer,
   BarChart,
@@ -39,10 +40,11 @@ export function WeeklyActivityChart() {
 
   return (
     <Card>
-      <div className="flex items-center gap-2 mb-6">
+      <Link href="/goals" className="flex items-center gap-2 mb-6 group">
         <BarChart3 size={18} style={{ color: user.accentColor }} />
-        <h3 className="text-sm font-semibold text-text-primary">Weekly Activity</h3>
-      </div>
+        <h3 className="text-sm font-semibold text-text-primary group-hover:text-gold transition-colors">Weekly Activity</h3>
+        <ChevronRight size={14} className="ml-auto text-text-dim opacity-0 group-hover:opacity-100 transition-opacity" />
+      </Link>
       {!hasData ? (
         <div className="flex flex-col items-center justify-center py-12 text-center">
           <div className="w-12 h-12 rounded-xl bg-bg-secondary flex items-center justify-center mb-3">

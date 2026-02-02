@@ -23,6 +23,7 @@ interface StatDef {
   label: string;
   value: string;
   accentColor: string;
+  href: string;
 }
 
 export function StatsRow() {
@@ -50,10 +51,10 @@ export function StatsRow() {
   switch (user.id) {
     case "eli":
       stats = [
-        { icon: Droplets, label: "Practices", value: weekActivities.length > 0 ? String(weekActivities.length) : "—", accentColor: c },
-        { icon: TrendingUp, label: "Yardage", value: "—", accentColor: c },
-        { icon: Award, label: "Best Times", value: "5", accentColor: c },
-        { icon: Activity, label: "SWOLF", value: "—", accentColor: c },
+        { icon: Droplets, label: "Practices", value: weekActivities.length > 0 ? String(weekActivities.length) : "—", accentColor: c, href: "/swimming" },
+        { icon: TrendingUp, label: "Yardage", value: "—", accentColor: c, href: "/swimming" },
+        { icon: Award, label: "Best Times", value: "5", accentColor: c, href: "/swimming" },
+        { icon: Activity, label: "SWOLF", value: "—", accentColor: c, href: "/swimming" },
       ];
       break;
     case "gavin": {
@@ -63,20 +64,20 @@ export function StatsRow() {
       const wins = games.filter((g) => g.result.toUpperCase().startsWith("W")).length;
       const record = n > 0 ? `${wins}-${n - wins}` : "—";
       stats = [
-        { icon: Target, label: "PPG", value: ppg, accentColor: c },
-        { icon: Star, label: "APG", value: apg, accentColor: c },
-        { icon: Trophy, label: "Record", value: record, accentColor: c },
-        { icon: Dumbbell, label: "Practices", value: weekActivities.length > 0 ? String(weekActivities.length) : "—", accentColor: c },
+        { icon: Target, label: "PPG", value: ppg, accentColor: c, href: "/basketball" },
+        { icon: Star, label: "APG", value: apg, accentColor: c, href: "/basketball" },
+        { icon: Trophy, label: "Record", value: record, accentColor: c, href: "/basketball" },
+        { icon: Dumbbell, label: "Practices", value: weekActivities.length > 0 ? String(weekActivities.length) : "—", accentColor: c, href: "/basketball" },
       ];
       break;
     }
     case "savannah": {
       const types = new Set(activities.map((a) => a.activityType));
       stats = [
-        { icon: Star, label: "Activities", value: weekActivities.length > 0 ? String(weekActivities.length) : "—", accentColor: c },
-        { icon: Clock, label: "Active Min", value: weekMinutes > 0 ? String(weekMinutes) : "—", accentColor: c },
-        { icon: Zap, label: "New Skills", value: types.size > 0 ? String(types.size) : "—", accentColor: c },
-        { icon: Trophy, label: "Sports", value: String(user.sports.length), accentColor: c },
+        { icon: Star, label: "Activities", value: weekActivities.length > 0 ? String(weekActivities.length) : "—", accentColor: c, href: "/goals" },
+        { icon: Clock, label: "Active Min", value: weekMinutes > 0 ? String(weekMinutes) : "—", accentColor: c, href: "/goals" },
+        { icon: Zap, label: "New Skills", value: types.size > 0 ? String(types.size) : "—", accentColor: c, href: "/goals" },
+        { icon: Trophy, label: "Sports", value: String(user.sports.length), accentColor: c, href: "/profile" },
       ];
       break;
     }
@@ -84,10 +85,10 @@ export function StatsRow() {
       // mark, gena, and fallback
       const totalWorkouts = weekWorkouts.length + weekActivities.length;
       stats = [
-        { icon: Dumbbell, label: "Workouts", value: totalWorkouts > 0 ? String(totalWorkouts) : "—", accentColor: c },
-        { icon: Flame, label: "Calories", value: todayCalories > 0 ? String(todayCalories) : "—", accentColor: c },
-        { icon: Clock, label: "Active Min", value: weekMinutes > 0 ? String(weekMinutes) : "—", accentColor: c },
-        { icon: Activity, label: "Weight", value: latestWeight ? `${latestWeight}` : "—", accentColor: c },
+        { icon: Dumbbell, label: "Workouts", value: totalWorkouts > 0 ? String(totalWorkouts) : "—", accentColor: c, href: "/workouts" },
+        { icon: Flame, label: "Calories", value: todayCalories > 0 ? String(todayCalories) : "—", accentColor: c, href: "/nutrition" },
+        { icon: Clock, label: "Active Min", value: weekMinutes > 0 ? String(weekMinutes) : "—", accentColor: c, href: "/goals" },
+        { icon: Activity, label: "Weight", value: latestWeight ? `${latestWeight}` : "—", accentColor: c, href: "/metrics" },
       ];
       break;
     }
@@ -102,6 +103,7 @@ export function StatsRow() {
           label={stat.label}
           value={stat.value}
           accentColor={stat.accentColor}
+          href={stat.href}
         />
       ))}
     </div>

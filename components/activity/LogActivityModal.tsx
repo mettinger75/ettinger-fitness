@@ -8,14 +8,6 @@ import { Button } from '@/components/ui/Button';
 import { useUserStore } from '@/lib/store/useUserStore';
 import { useFitnessStore } from '@/lib/store/useFitnessStore';
 
-const DEFAULT_ACTIVITIES: Record<string, string[]> = {
-  mark: ['Strength Training', 'Conditioning', 'Running', 'HIIT', 'Stretching'],
-  gena: ['Yoga', 'Pilates', 'Walking', 'Meditation', 'Stretching'],
-  eli: ['Swim Practice', 'Dryland Training', 'Running', 'Stretching'],
-  gavin: ['Basketball Practice', 'Shooting Drills', 'Conditioning', 'Running', 'Agility'],
-  savannah: ['Dance', 'Gymnastics', 'Running', 'Soccer', 'Swimming'],
-};
-
 function today(): string {
   return new Date().toISOString().split('T')[0];
 }
@@ -30,7 +22,7 @@ export function LogActivityModal({ open, onClose }: LogActivityModalProps) {
   const user = getActiveUser();
   const addActivity = useFitnessStore((s) => s.addActivity);
 
-  const activityTypes = (DEFAULT_ACTIVITIES[user.id] || ['Exercise', 'Training']).map((a) => ({
+  const activityTypes = (user.trackedActivities.length > 0 ? user.trackedActivities : ['Exercise', 'Training']).map((a) => ({
     value: a,
     label: a,
   }));

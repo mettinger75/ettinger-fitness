@@ -1,8 +1,8 @@
 'use client';
 
+import Link from 'next/link';
 import { Card } from '@/components/ui/Card';
-import { SectionTitle } from '@/components/ui/SectionTitle';
-import { Award } from 'lucide-react';
+import { Award, ChevronRight } from 'lucide-react';
 import { useUserStore } from '@/lib/store/useUserStore';
 import { useFitnessStore, selectActivities, selectMeals, selectGoals, selectWorkouts, selectGames, selectMetrics } from '@/lib/store/useFitnessStore';
 
@@ -60,7 +60,11 @@ export function RecentAchievements() {
 
   return (
     <Card>
-      <SectionTitle icon={Award} title="Recent Achievements" />
+      <Link href="/profile" className="flex items-center gap-2 mb-4 group">
+        <Award size={18} style={{ color: user.accentColor }} />
+        <h3 className="text-sm font-semibold text-text-primary group-hover:text-gold transition-colors">Recent Achievements</h3>
+        <ChevronRight size={14} className="ml-auto text-text-dim opacity-0 group-hover:opacity-100 transition-opacity" />
+      </Link>
       {achievements.length === 0 ? (
         <div className="flex flex-col items-center justify-center py-10 text-center">
           <div className="w-12 h-12 rounded-xl bg-bg-secondary flex items-center justify-center mb-3">

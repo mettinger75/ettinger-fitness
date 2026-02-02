@@ -1,8 +1,7 @@
 'use client';
 
 import { Card } from '@/components/ui/Card';
-import { SectionTitle } from '@/components/ui/SectionTitle';
-import { Trophy, Circle, CheckCircle2 } from 'lucide-react';
+import { Trophy, Circle, CheckCircle2, ChevronRight } from 'lucide-react';
 import { useUserStore } from '@/lib/store/useUserStore';
 import { useFitnessStore, selectGoals } from '@/lib/store/useFitnessStore';
 import Link from 'next/link';
@@ -15,7 +14,11 @@ export function ActiveGoals() {
 
   return (
     <Card gold>
-      <SectionTitle icon={Trophy} title="Active Goals" />
+      <Link href="/goals" className="flex items-center gap-2 mb-4 group">
+        <Trophy size={18} className="text-gold" />
+        <h3 className="text-sm font-semibold text-text-primary group-hover:text-gold transition-colors">Active Goals</h3>
+        <ChevronRight size={14} className="ml-auto text-text-dim opacity-0 group-hover:opacity-100 transition-opacity" />
+      </Link>
       {goals.length === 0 ? (
         <div className="flex flex-col items-center justify-center py-10 text-center">
           <div className="w-12 h-12 rounded-xl bg-gold/10 flex items-center justify-center mb-3">
@@ -31,7 +34,7 @@ export function ActiveGoals() {
           {goals.map((goal) => {
             const pct = goal.targetValue > 0 ? Math.min((goal.currentValue / goal.targetValue) * 100, 100) : 0;
             return (
-              <div key={goal.id} className="space-y-1.5">
+              <Link key={goal.id} href="/goals" className="block space-y-1.5 hover:opacity-80 transition-opacity">
                 <div className="flex items-center gap-3">
                   {goal.status === 'completed' ? (
                     <CheckCircle2 size={18} className="text-accent-green shrink-0" />
@@ -51,7 +54,7 @@ export function ActiveGoals() {
                     />
                   </div>
                 )}
-              </div>
+              </Link>
             );
           })}
           {allGoals.length > 5 && (
