@@ -20,7 +20,7 @@ export function GoalSelector({ selected, onChange }: GoalSelectorProps) {
               px-3 py-1.5 rounded-lg text-sm transition-colors border cursor-pointer
               ${isSelected
                 ? 'border-gold/50 bg-gold/10 text-gold'
-                : 'border-border-default bg-bg-secondary text-text-muted hover:text-text-primary hover:border-text-dim'
+                : 'border-glass-border bg-[rgba(148,163,184,0.08)] text-text-muted hover:text-text-primary hover:border-text-dim'
               }
             `}
           >

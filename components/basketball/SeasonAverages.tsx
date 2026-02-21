@@ -35,7 +35,7 @@ export function SeasonAverages() {
         {stats.map((stat) => (
           <div
             key={stat.label}
-            className="bg-bg-card border border-border-default rounded-xl p-3 text-center hover:bg-bg-card-hover transition-all"
+            className="glass rounded-xl p-3 text-center hover:bg-bg-card-hover transition-all"
           >
             <p className="text-[10px] uppercase tracking-wider text-text-muted mb-1">{stat.label}</p>
             <p className="font-display text-[20px] sm:text-[24px] leading-none" style={{ color: stat.value === '—' ? '#64748B' : stat.color }}>

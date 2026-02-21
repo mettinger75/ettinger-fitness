@@ -50,7 +50,7 @@ export function RecentActivity() {
       </Link>
       {recentActivities.length === 0 ? (
         <div className="flex flex-col items-center justify-center py-10 text-center">
-          <div className="w-12 h-12 rounded-xl bg-bg-secondary flex items-center justify-center mb-3">
+          <div className="w-12 h-12 rounded-xl glass flex items-center justify-center mb-3">
             <EmptyIcon size={22} className="text-text-dim" />
           </div>
           <p className="text-sm font-medium text-text-muted">{getEmptyMessage(user.id)}</p>
@@ -60,7 +60,7 @@ export function RecentActivity() {
           {recentActivities.map((activity) => (
             <div
               key={activity.id}
-              className="flex items-center gap-3 py-2 border-b border-border-default/50 last:border-0"
+              className="flex items-center gap-3 py-2 border-b border-glass-border last:border-0"
             >
               <div
                 className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0"

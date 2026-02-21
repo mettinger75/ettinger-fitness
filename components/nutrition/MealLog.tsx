@@ -10,6 +10,7 @@ import { Select } from '@/components/ui/Select';
 import { Button } from '@/components/ui/Button';
 import { useUserStore } from '@/lib/store/useUserStore';
 import { useFitnessStore, selectMeals } from '@/lib/store/useFitnessStore';
+import { insertMeal, deleteMeal as dbDeleteMeal } from '@/lib/supabase/db';
 import type { Meal } from '@/lib/types/fitness';
 
 const MEAL_TYPES = [
@@ -57,7 +58,7 @@ export function MealLog() {
 
   const handleSave = () => {
     if (!name) return;
-    addMeal(user.id, {
+    const mealData = {
       date: today(),
       mealType: mealType as Meal['mealType'],
       name,
@@ -65,9 +66,24 @@ export function MealLog() {
       protein: Number(protein) || 0,
       carbs: Number(carbs) || 0,
       fat: Number(fat) || 0,
-    });
+    };
+    addMeal(user.id, mealData);
+    // Also persist to Supabase
+    insertMeal(user.id, {
+      date: mealData.date,
+      name: mealData.name,
+      calories: mealData.calories,
+      protein: mealData.protein,
+      carbs: mealData.carbs,
+      fat: mealData.fat,
+    }).catch(() => {});
     resetForm();
     setModalOpen(false);
+  };
+
+  const handleDelete = (mealId: string) => {
+    deleteMeal(user.id, mealId);
+    dbDeleteMeal(mealId).catch(() => {});
   };
 
   const grouped = MEAL_TYPES.map((t) => ({
@@ -106,7 +122,7 @@ export function MealLog() {
                 {group.meals.map((meal) => (
                   <div
                     key={meal.id}
-                    className="flex items-center justify-between bg-bg-card border border-border-default rounded-lg px-3 py-2.5"
+                    className="flex items-center justify-between glass rounded-xl px-3 py-2.5"
                   >
                     <div className="flex-1 min-w-0">
                       <p className="text-sm text-text-primary truncate">{meal.name}</p>
@@ -115,7 +131,7 @@ export function MealLog() {
                       </p>
                     </div>
                     <button
-                      onClick={() => deleteMeal(user.id, meal.id)}
+                      onClick={() => handleDelete(meal.id)}
                       className="ml-2 text-text-dim hover:text-accent-red transition-colors"
                     >
                       <Trash2 size={14} />
@@ -128,17 +144,21 @@ export function MealLog() {
         </div>
       )}
 
-      <Modal open={modalOpen} onClose={() => setModalOpen(false)} title="Add Meal">
+      <Modal
+        open={modalOpen}
+        onClose={() => setModalOpen(false)}
+        title="Add Meal"
+        footer={<Button className="w-full" onClick={handleSave} disabled={!name}>Save Meal</Button>}
+      >
         <div className="space-y-4">
           <Select id="meal-type" label="Meal Type" options={MEAL_TYPES} value={mealType} onChange={(e) => setMealType(e.target.value)} />
           <Input id="food" label="Food / Description" placeholder="e.g. Grilled chicken with rice" value={name} onChange={(e) => setName(e.target.value)} />
           <div className="grid grid-cols-2 gap-3">
-            <Input id="calories" label="Calories" type="number" placeholder="0" value={calories} onChange={(e) => setCalories(e.target.value)} />
-            <Input id="protein" label="Protein (g)" type="number" placeholder="0" value={protein} onChange={(e) => setProtein(e.target.value)} />
-            <Input id="carbs" label="Carbs (g)" type="number" placeholder="0" value={carbs} onChange={(e) => setCarbs(e.target.value)} />
-            <Input id="fat" label="Fat (g)" type="number" placeholder="0" value={fat} onChange={(e) => setFat(e.target.value)} />
+            <Input id="calories" label="Calories" type="number" inputMode="numeric" placeholder="0" value={calories} onChange={(e) => setCalories(e.target.value)} />
+            <Input id="protein" label="Protein (g)" type="number" inputMode="numeric" placeholder="0" value={protein} onChange={(e) => setProtein(e.target.value)} />
+            <Input id="carbs" label="Carbs (g)" type="number" inputMode="numeric" placeholder="0" value={carbs} onChange={(e) => setCarbs(e.target.value)} />
+            <Input id="fat" label="Fat (g)" type="number" inputMode="numeric" placeholder="0" value={fat} onChange={(e) => setFat(e.target.value)} />
           </div>
-          <Button className="w-full" onClick={handleSave}>Save Meal</Button>
         </div>
       </Modal>
     </div>

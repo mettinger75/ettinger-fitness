@@ -15,13 +15,13 @@ export function Card({ children, className = '', gold, hover, onClick }: CardPro
     <div
       onClick={onClick}
       className={`
-        rounded-xl border p-5 h-full
+        rounded-2xl p-5 h-full
         ${gold
-          ? 'border-gold/20 bg-gradient-to-br from-bg-card to-bg-card-hover'
-          : 'border-border-default bg-bg-card'
+          ? 'glass-gold'
+          : 'glass'
         }
-        ${hover ? 'transition-colors hover:bg-bg-card-hover cursor-pointer' : ''}
-        ${onClick && !hover ? 'cursor-pointer' : ''}
+        ${hover ? 'glass-hover cursor-pointer' : ''}
+        ${onClick && !hover ? 'glass-hover cursor-pointer' : ''}
         ${className}
       `}
     >

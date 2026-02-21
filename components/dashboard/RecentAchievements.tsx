@@ -67,7 +67,7 @@ export function RecentAchievements() {
       </Link>
       {achievements.length === 0 ? (
         <div className="flex flex-col items-center justify-center py-10 text-center">
-          <div className="w-12 h-12 rounded-xl bg-bg-secondary flex items-center justify-center mb-3">
+          <div className="w-12 h-12 rounded-xl glass flex items-center justify-center mb-3">
             <Award size={22} className="text-text-dim" />
           </div>
           <p className="text-sm font-medium text-text-muted">Achievements unlock as you hit milestones</p>

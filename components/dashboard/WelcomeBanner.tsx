@@ -11,10 +11,13 @@ export function WelcomeBanner() {
 
   return (
     <div
-      className="relative rounded-2xl border p-6 lg:p-8 overflow-hidden"
+      className="relative rounded-2xl p-6 lg:p-8 overflow-hidden"
       style={{
-        background: `linear-gradient(135deg, #1E293B 0%, ${user.accentColor}12 60%, ${user.accentColor}06 100%)`,
-        borderColor: `${user.accentColor}25`,
+        background: `linear-gradient(135deg, rgba(20,30,52,0.6) 0%, ${user.accentColor}10 60%, ${user.accentColor}06 100%)`,
+        borderColor: `${user.accentColor}20`,
+        border: `1px solid ${user.accentColor}20`,
+        backdropFilter: 'blur(16px) saturate(1.4)',
+        WebkitBackdropFilter: 'blur(16px) saturate(1.4)',
       }}
     >
       <div

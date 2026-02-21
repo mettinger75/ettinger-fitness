@@ -39,8 +39,8 @@ export function UserSelector() {
       </button>
 
       {open && (
-        <div className="absolute right-0 top-full mt-2 w-56 rounded-xl border border-border-default bg-bg-card shadow-2xl overflow-hidden animate-fade-in z-50">
-          <div className="px-3 py-2 border-b border-border-default">
+        <div className="absolute right-0 top-full mt-2 w-56 rounded-2xl glass shadow-2xl overflow-hidden animate-fade-in z-50">
+          <div className="px-3 py-2 border-b border-glass-border">
             <p className="text-xs text-text-dim uppercase tracking-wider">Switch User</p>
           </div>
           {USERS.map((baseUser) => {
@@ -56,7 +56,7 @@ export function UserSelector() {
                   w-full flex items-center gap-3 px-3 py-2.5 transition-colors cursor-pointer
                   ${u.id === activeUserId
                     ? 'bg-gold/10'
-                    : 'hover:bg-bg-card-hover'
+                    : 'hover:bg-glass-hover'
                   }
                 `}
               >
@@ -77,7 +77,7 @@ export function UserSelector() {
           <Link
             href="/profile"
             onClick={() => setOpen(false)}
-            className="flex items-center gap-2 px-3 py-2.5 border-t border-border-default text-text-muted hover:text-text-primary hover:bg-bg-card-hover transition-colors"
+            className="flex items-center gap-2 px-3 py-2.5 border-t border-glass-border text-text-muted hover:text-text-primary hover:bg-glass-hover transition-colors"
           >
             <Settings size={14} />
             <span className="text-xs">Edit Profile</span>

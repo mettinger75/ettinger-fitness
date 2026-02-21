@@ -87,7 +87,7 @@ export function FamilyChallenge() {
               <Card key={c.id}>
                 <div className="flex items-start justify-between">
                   <div className="flex items-start gap-3">
-                    <div className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 ${isActive ? 'bg-accent-green/15' : isUpcoming ? 'bg-gold/15' : 'bg-bg-secondary'}`}>
+                    <div className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 ${isActive ? 'bg-accent-green/15' : isUpcoming ? 'bg-gold/15' : 'bg-[rgba(148,163,184,0.08)]'}`}>
                       <Trophy size={14} className={isActive ? 'text-accent-green' : isUpcoming ? 'text-gold' : 'text-text-dim'} />
                     </div>
                     <div>
@@ -111,7 +111,12 @@ export function FamilyChallenge() {
         </div>
       )}
 
-      <Modal open={modalOpen} onClose={() => setModalOpen(false)} title="Create Family Challenge">
+      <Modal
+        open={modalOpen}
+        onClose={() => setModalOpen(false)}
+        title="Create Family Challenge"
+        footer={<Button className="w-full" onClick={handleCreate}>Create Challenge</Button>}
+      >
         <div className="space-y-4">
           <Input id="challenge-title" label="Challenge Name" placeholder="e.g., 30-Day Step Challenge" value={title} onChange={(e) => setTitle(e.target.value)} />
           <Input id="challenge-desc" label="Description" placeholder="Description of the challenge" value={description} onChange={(e) => setDescription(e.target.value)} />
@@ -119,7 +124,6 @@ export function FamilyChallenge() {
             <Input id="challenge-start" label="Start Date" type="date" value={startDate} onChange={(e) => setStartDate(e.target.value)} />
             <Input id="challenge-end" label="End Date" type="date" value={endDate} onChange={(e) => setEndDate(e.target.value)} />
           </div>
-          <Button className="w-full" onClick={handleCreate}>Create Challenge</Button>
         </div>
       </Modal>
     </div>

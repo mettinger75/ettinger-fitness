@@ -11,6 +11,7 @@ import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import { useUserStore } from '@/lib/store/useUserStore';
 import { useFitnessStore, selectGoals } from '@/lib/store/useFitnessStore';
+import { insertGoal, updateGoal as dbUpdateGoal, deleteGoal as dbDeleteGoal } from '@/lib/supabase/db';
 
 const CATEGORY_OPTIONS = [
   { value: 'strength', label: 'Strength' },
@@ -50,13 +51,22 @@ export default function GoalsPage() {
 
   const handleCreate = () => {
     if (!title || !target) return;
-    addGoal(user.id, {
+    const goalData = {
       title,
       category,
       targetValue: Number(target),
       unit,
       dueDate: deadline || undefined,
-    });
+    };
+    addGoal(user.id, goalData);
+    // Also persist to Supabase
+    insertGoal(user.id, {
+      title: goalData.title,
+      category: goalData.category,
+      target_value: goalData.targetValue,
+      unit: goalData.unit,
+      due_date: goalData.dueDate,
+    }).catch(() => {});
     resetForm();
     setModalOpen(false);
   };
@@ -65,13 +75,34 @@ export default function GoalsPage() {
     if (!selectedGoalId) return;
     const val = Number(progressValue);
     const goal = goals.find((g) => g.id === selectedGoalId);
+    const newStatus = goal && val >= goal.targetValue ? 'completed' : 'active';
     updateGoal(user.id, selectedGoalId, {
       currentValue: val,
-      status: goal && val >= goal.targetValue ? 'completed' : 'active',
+      status: newStatus,
     });
+    dbUpdateGoal(selectedGoalId, {
+      current_value: val,
+      status: newStatus,
+      progress_pct: goal ? Math.min(Math.round((val / goal.targetValue) * 100), 100) : 0,
+    }).catch(() => {});
     setUpdateModalOpen(false);
     setSelectedGoalId(null);
     setProgressValue('');
+  };
+
+  const handleDeleteGoal = (goalId: string) => {
+    deleteGoal(user.id, goalId);
+    dbDeleteGoal(goalId).catch(() => {});
+  };
+
+  const handlePauseGoal = (goalId: string) => {
+    updateGoal(user.id, goalId, { status: 'paused' });
+    dbUpdateGoal(goalId, { status: 'paused' }).catch(() => {});
+  };
+
+  const handleResumeGoal = (goalId: string) => {
+    updateGoal(user.id, goalId, { status: 'active' });
+    dbUpdateGoal(goalId, { status: 'active' }).catch(() => {});
   };
 
   const activeGoals = goals.filter((g) => g.status === 'active');
@@ -111,7 +142,7 @@ export default function GoalsPage() {
                       <div className="flex items-start justify-between gap-3">
                         <div className="flex-1">
                           <div className="flex items-center gap-2 mb-1">
-                            <span className="text-xs px-2 py-0.5 rounded bg-bg-secondary text-text-muted capitalize">{goal.category}</span>
+                            <span className="text-xs px-2 py-0.5 rounded bg-[rgba(148,163,184,0.08)] text-text-muted capitalize">{goal.category}</span>
                             {goal.dueDate && <span className="text-xs text-text-dim">Due {goal.dueDate}</span>}
                           </div>
                           <p className="text-sm font-medium text-text-primary">{goal.title}</p>
@@ -120,7 +151,7 @@ export default function GoalsPage() {
                               <span>{goal.currentValue} / {goal.targetValue} {goal.unit}</span>
                               <span>{pct.toFixed(0)}%</span>
                             </div>
-                            <div className="h-2 bg-bg-secondary rounded-full overflow-hidden">
+                            <div className="h-2 bg-[rgba(148,163,184,0.08)] rounded-full overflow-hidden">
                               <div
                                 className="h-full rounded-full transition-all"
                                 style={{ width: `${pct}%`, backgroundColor: user.accentColor }}
@@ -141,14 +172,14 @@ export default function GoalsPage() {
                             <Target size={14} />
                           </button>
                           <button
-                            onClick={() => updateGoal(user.id, goal.id, { status: 'paused' })}
+                            onClick={() => handlePauseGoal(goal.id)}
                             className="p-1.5 text-text-dim hover:text-accent-orange transition-colors"
                             title="Pause"
                           >
                             <Pause size={14} />
                           </button>
                           <button
-                            onClick={() => deleteGoal(user.id, goal.id)}
+                            onClick={() => handleDeleteGoal(goal.id)}
                             className="p-1.5 text-text-dim hover:text-accent-red transition-colors"
                             title="Delete"
                           >
@@ -176,13 +207,13 @@ export default function GoalsPage() {
                       </div>
                       <div className="flex gap-1">
                         <button
-                          onClick={() => updateGoal(user.id, goal.id, { status: 'active' })}
+                          onClick={() => handleResumeGoal(goal.id)}
                           className="p-1.5 text-text-dim hover:text-accent-green transition-colors"
                         >
                           <Play size={14} />
                         </button>
                         <button
-                          onClick={() => deleteGoal(user.id, goal.id)}
+                          onClick={() => handleDeleteGoal(goal.id)}
                           className="p-1.5 text-text-dim hover:text-accent-red transition-colors"
                         >
                           <Trash2 size={14} />
@@ -216,29 +247,38 @@ export default function GoalsPage() {
         </div>
       )}
 
-      <Modal open={modalOpen} onClose={() => setModalOpen(false)} title="Create Goal">
+      <Modal
+        open={modalOpen}
+        onClose={() => setModalOpen(false)}
+        title="Create Goal"
+        footer={<Button className="w-full" onClick={handleCreate} disabled={!title || !target}>Create Goal</Button>}
+      >
         <div className="space-y-4">
           <Input id="goal-title" label="Goal Title" placeholder="e.g., Run 100 miles this month" value={title} onChange={(e) => setTitle(e.target.value)} />
           <Select id="goal-category" label="Category" options={CATEGORY_OPTIONS} value={category} onChange={(e) => setCategory(e.target.value)} />
           <div className="grid grid-cols-2 gap-3">
-            <Input id="goal-target" label="Target" type="number" placeholder="0" value={target} onChange={(e) => setTarget(e.target.value)} />
+            <Input id="goal-target" label="Target" type="number" inputMode="numeric" placeholder="0" value={target} onChange={(e) => setTarget(e.target.value)} />
             <Input id="goal-unit" label="Unit" placeholder="e.g., miles, lbs, reps" value={unit} onChange={(e) => setUnit(e.target.value)} />
           </div>
           <Input id="goal-deadline" label="Deadline" type="date" value={deadline} onChange={(e) => setDeadline(e.target.value)} />
-          <Button className="w-full" onClick={handleCreate}>Create Goal</Button>
         </div>
       </Modal>
 
-      <Modal open={updateModalOpen} onClose={() => setUpdateModalOpen(false)} title="Update Progress">
+      <Modal
+        open={updateModalOpen}
+        onClose={() => setUpdateModalOpen(false)}
+        title="Update Progress"
+        footer={<Button className="w-full" onClick={handleUpdateProgress}>Update</Button>}
+      >
         <div className="space-y-4">
           <Input
             id="progress"
             label="Current Progress"
             type="number"
+            inputMode="numeric"
             value={progressValue}
             onChange={(e) => setProgressValue(e.target.value)}
           />
-          <Button className="w-full" onClick={handleUpdateProgress}>Update</Button>
         </div>
       </Modal>
     </div>

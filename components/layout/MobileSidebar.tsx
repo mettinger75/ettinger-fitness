@@ -39,9 +39,9 @@ export function MobileSidebar() {
         className="absolute inset-0 bg-black/60 backdrop-blur-sm animate-fade-in"
         onClick={() => setMobileSidebarOpen(false)}
       />
-      <div className="absolute left-0 top-0 h-full w-72 bg-bg-sidebar border-r border-border-default animate-slide-up flex flex-col">
+      <div className="absolute left-0 top-0 h-full w-72 bg-bg-sidebar backdrop-blur-xl border-r border-glass-border animate-slide-up flex flex-col">
         {/* Header */}
-        <div className="h-16 flex items-center justify-between px-5 border-b border-border-default">
+        <div className="h-16 flex items-center justify-between px-5 border-b border-glass-border">
           <div className="flex items-center gap-3">
             <div className="w-8 h-8 rounded-lg bg-gold flex items-center justify-center text-bg-primary font-bold text-sm">
               E
@@ -84,7 +84,7 @@ export function MobileSidebar() {
         <Link
           href="/profile"
           onClick={() => setMobileSidebarOpen(false)}
-          className="block p-5 border-t border-border-default hover:bg-bg-sidebar-hover transition-colors"
+          className="block p-5 border-t border-glass-border hover:bg-bg-sidebar-hover transition-colors"
         >
           <div className="flex items-center gap-3">
             <div

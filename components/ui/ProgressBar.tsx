@@ -28,8 +28,8 @@ export function ProgressBar({
         </div>
       )}
       <div
-        className="w-full rounded-full overflow-hidden bg-bg-secondary"
-        style={{ height }}
+        className="w-full rounded-full overflow-hidden"
+        style={{ background: 'rgba(148, 163, 184, 0.08)', height }}
       >
         <div
           className="h-full rounded-full transition-[width] duration-500 ease-out"

@@ -44,14 +44,14 @@ export function ScoringTrend() {
         <div className="h-[220px]">
           <ResponsiveContainer width="100%" height="100%">
             <LineChart data={chartData}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
+              <CartesianGrid strokeDasharray="3 3" stroke="rgba(148,163,184,0.08)" />
               <XAxis dataKey="game" tick={{ fill: '#94A3B8', fontSize: 11 }} />
               <YAxis tick={{ fill: '#94A3B8', fontSize: 11 }} />
               <Tooltip
                 contentStyle={{
-                  backgroundColor: '#1E293B',
-                  border: '1px solid #334155',
-                  borderRadius: 8,
+                  backgroundColor: 'rgba(20,30,52,0.85)',
+                  border: '1px solid rgba(148,163,184,0.12)',
+                  borderRadius: 12,
                   color: '#F1F5F9',
                   fontSize: 12,
                 }}

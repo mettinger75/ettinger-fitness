@@ -53,7 +53,7 @@ export function GeneratedWorkout({ title, duration, calories, difficulty, phases
             {phase.exercises.map((ex, j) => (
               <div
                 key={j}
-                className="flex items-center justify-between p-3 rounded-lg bg-bg-secondary/50"
+                className="flex items-center justify-between p-3 rounded-lg bg-[rgba(148,163,184,0.08)]"
               >
                 <div>
                   <p className="text-sm text-text-primary">{ex.name}</p>

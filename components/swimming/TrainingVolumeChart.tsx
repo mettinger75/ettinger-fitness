@@ -20,7 +20,7 @@ export function TrainingVolumeChart() {
       </div>
       <div className="space-y-3">
         {IMPROVEMENTS.map((imp) => (
-          <div key={imp.event} className="flex items-center gap-3 p-3 rounded-lg bg-bg-secondary border border-border-default">
+          <div key={imp.event} className="flex items-center gap-3 p-3 rounded-lg glass">
             <div className="flex-1 min-w-0">
               <p className="text-sm font-medium text-text-primary">{imp.event}</p>
               <div className="flex items-center gap-2 mt-1">
@@ -36,7 +36,7 @@ export function TrainingVolumeChart() {
           </div>
         ))}
       </div>
-      <div className="mt-4 pt-4 border-t border-border-default">
+      <div className="mt-4 pt-4 border-t border-glass-border">
         <div className="flex items-center justify-between text-xs text-text-muted">
           <span>Events within 10% of Sectional</span>
           <span className="font-medium text-accent-sky">4 events</span>

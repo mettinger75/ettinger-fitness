@@ -44,11 +44,11 @@ export function StatCard({ icon: Icon, label, value, trend, trendLabel, accentCo
     </>
   );
 
-  const classes = `rounded-xl border bg-bg-card p-4 sm:p-5 flex flex-col gap-3 transition-colors hover:bg-bg-card-hover ${interactive ? 'cursor-pointer' : ''}`;
+  const classes = `rounded-2xl glass glass-hover p-4 sm:p-5 flex flex-col gap-3 ${interactive ? 'cursor-pointer' : ''}`;
 
   if (href) {
     return (
-      <Link href={href} className={classes} style={{ borderColor: `${color}15` }}>
+      <Link href={href} className={classes} style={{ borderColor: `${color}20` }}>
         {content}
       </Link>
     );
@@ -57,7 +57,7 @@ export function StatCard({ icon: Icon, label, value, trend, trendLabel, accentCo
   return (
     <div
       className={classes}
-      style={{ borderColor: `${color}15` }}
+      style={{ borderColor: `${color}20` }}
       onClick={onClick}
       role={onClick ? 'button' : undefined}
       tabIndex={onClick ? 0 : undefined}

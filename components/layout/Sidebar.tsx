@@ -48,13 +48,14 @@ export function Sidebar() {
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       className={`
-        fixed left-0 top-0 h-full z-40 bg-bg-sidebar border-r border-border-default
+        fixed left-0 top-0 h-full z-40
+        bg-bg-sidebar backdrop-blur-xl border-r border-glass-border
         transition-[width] duration-300 ease-in-out hidden lg:flex flex-col
         ${hovered ? 'w-[220px]' : 'w-16'}
       `}
     >
       {/* Logo */}
-      <div className="h-16 flex items-center px-4 border-b border-border-default">
+      <div className="h-16 flex items-center px-4 border-b border-glass-border">
         <div className="w-8 h-8 rounded-lg bg-gold flex items-center justify-center text-bg-primary font-bold text-sm shrink-0">
           E
         </div>
@@ -100,7 +101,7 @@ export function Sidebar() {
       </nav>
 
       {/* User Indicator — clickable, links to profile */}
-      <Link href="/profile" className="block p-4 border-t border-border-default hover:bg-bg-sidebar-hover transition-colors">
+      <Link href="/profile" className="block p-4 border-t border-glass-border hover:bg-bg-sidebar-hover transition-colors">
         <div className="flex items-center">
           <div
             className="w-8 h-8 rounded-full flex items-center justify-center text-sm shrink-0"

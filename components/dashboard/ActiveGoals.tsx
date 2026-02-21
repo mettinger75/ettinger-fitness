@@ -47,7 +47,7 @@ export function ActiveGoals() {
                   <span className="text-xs text-text-dim">{pct.toFixed(0)}%</span>
                 </div>
                 {goal.status !== 'completed' && (
-                  <div className="ml-[30px] h-1.5 bg-bg-secondary rounded-full overflow-hidden">
+                  <div className="ml-[30px] h-1.5 bg-glass rounded-full overflow-hidden">
                     <div
                       className="h-full rounded-full transition-all"
                       style={{ width: `${pct}%`, backgroundColor: user.accentColor }}

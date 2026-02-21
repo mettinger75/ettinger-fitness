@@ -47,7 +47,7 @@ export function WeeklyActivityChart() {
       </Link>
       {!hasData ? (
         <div className="flex flex-col items-center justify-center py-12 text-center">
-          <div className="w-12 h-12 rounded-xl bg-bg-secondary flex items-center justify-center mb-3">
+          <div className="w-12 h-12 rounded-xl glass flex items-center justify-center mb-3">
             <BarChart3 size={22} className="text-text-dim" />
           </div>
           <p className="text-sm font-medium text-text-primary">Start your fitness journey</p>
@@ -57,16 +57,17 @@ export function WeeklyActivityChart() {
         <div className="h-[200px]">
           <ResponsiveContainer width="100%" height="100%">
             <BarChart data={chartData}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#334155" vertical={false} />
+              <CartesianGrid strokeDasharray="3 3" stroke="rgba(148,163,184,0.08)" vertical={false} />
               <XAxis dataKey="day" tick={{ fill: '#94A3B8', fontSize: 11 }} />
               <YAxis tick={{ fill: '#94A3B8', fontSize: 11 }} />
               <Tooltip
                 contentStyle={{
-                  backgroundColor: '#1E293B',
-                  border: '1px solid #334155',
-                  borderRadius: 8,
+                  backgroundColor: 'rgba(20,30,52,0.85)',
+                  border: '1px solid rgba(148,163,184,0.12)',
+                  borderRadius: 12,
                   color: '#F1F5F9',
                   fontSize: 12,
+                  backdropFilter: 'blur(12px)',
                 }}
                 formatter={(value) => [`${value} min`, 'Duration']}
               />

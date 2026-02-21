@@ -10,16 +10,22 @@ import { Input } from '@/components/ui/Input';
 import { Button } from '@/components/ui/Button';
 import { useUserStore } from '@/lib/store/useUserStore';
 import { useFitnessStore, selectGames } from '@/lib/store/useFitnessStore';
+import { insertBasketballGame, deleteBasketballGame as dbDeleteGame } from '@/lib/supabase/db';
+
+function today(): string {
+  return new Date().toISOString().split('T')[0];
+}
 
 export function GameLog() {
   const [modalOpen, setModalOpen] = useState(false);
+  const [saving, setSaving] = useState(false);
   const getActiveUser = useUserStore((s) => s.getActiveUser);
   const user = getActiveUser();
   const games = useFitnessStore(selectGames(user.id));
   const addGame = useFitnessStore((s) => s.addBasketballGame);
   const deleteGame = useFitnessStore((s) => s.deleteBasketballGame);
 
-  const [date, setDate] = useState('');
+  const [date, setDate] = useState(today);
   const [opponent, setOpponent] = useState('');
   const [result, setResult] = useState('');
   const [points, setPoints] = useState('');
@@ -32,7 +38,7 @@ export function GameLog() {
   const [minutes, setMinutes] = useState('');
 
   const resetForm = () => {
-    setDate('');
+    setDate(today());
     setOpponent('');
     setResult('');
     setPoints('');
@@ -46,11 +52,12 @@ export function GameLog() {
   };
 
   const handleSave = () => {
-    if (!date || !opponent) return;
-    addGame(user.id, {
-      date,
+    if (!opponent) return;
+    const gameDate = date || today();
+    const gameData = {
+      date: gameDate,
       opponent,
-      result,
+      result: result || 'TBD',
       points: Number(points) || 0,
       rebounds: Number(rebounds) || 0,
       assists: Number(assists) || 0,
@@ -59,9 +66,31 @@ export function GameLog() {
       fgPct: Number(fgPct) || 0,
       ftPct: Number(ftPct) || 0,
       minutes: Number(minutes) || 0,
-    });
+    };
+    setSaving(true);
+    addGame(user.id, gameData);
+    // Also persist to Supabase
+    insertBasketballGame(user.id, {
+      date: gameDate,
+      opponent: gameData.opponent,
+      result: gameData.result,
+      points: gameData.points,
+      rebounds: gameData.rebounds,
+      assists: gameData.assists,
+      steals: gameData.steals,
+      blocks: gameData.blocks,
+      fg_pct: gameData.fgPct,
+      ft_pct: gameData.ftPct,
+      minutes: gameData.minutes,
+    }).catch(() => {});
     resetForm();
+    setSaving(false);
     setModalOpen(false);
+  };
+
+  const handleDelete = (gameId: string) => {
+    deleteGame(user.id, gameId);
+    dbDeleteGame(gameId).catch(() => {});
   };
 
   const isWin = (r: string) => r.toUpperCase().startsWith('W');
@@ -87,10 +116,10 @@ export function GameLog() {
             onAction={() => setModalOpen(true)}
           />
         ) : (
-          <div className="overflow-x-auto">
+          <div className="overflow-x-auto -mx-4 px-4 sm:mx-0 sm:px-0">
             <table className="w-full text-sm">
               <thead>
-                <tr className="border-b border-border-default">
+                <tr className="border-b border-glass-border">
                   <th className="text-left py-2 text-xs text-text-dim font-medium">Date</th>
                   <th className="text-left py-2 text-xs text-text-dim font-medium">Opponent</th>
                   <th className="text-center py-2 text-xs text-text-dim font-medium">Result</th>
@@ -103,7 +132,7 @@ export function GameLog() {
               </thead>
               <tbody>
                 {games.map((game) => (
-                  <tr key={game.id} className="border-b border-border-default/50 hover:bg-bg-card-hover transition-colors">
+                  <tr key={game.id} className="border-b border-glass-border/50 hover:bg-bg-card-hover transition-colors">
                     <td className="py-2.5 text-text-muted">{game.date}</td>
                     <td className="py-2.5 text-text-primary">{game.opponent}</td>
                     <td className="py-2.5 text-center">
@@ -117,7 +146,7 @@ export function GameLog() {
                     <td className="py-2.5 text-center text-text-muted hidden md:table-cell">{game.minutes}</td>
                     <td className="py-2.5">
                       <button
-                        onClick={() => deleteGame(user.id, game.id)}
+                        onClick={() => handleDelete(game.id)}
                         className="text-text-dim hover:text-accent-red transition-colors"
                       >
                         <Trash2 size={14} />
@@ -131,22 +160,30 @@ export function GameLog() {
         )}
       </Card>
 
-      <Modal open={modalOpen} onClose={() => setModalOpen(false)} title="Add Game">
-        <div className="space-y-4 max-h-[60vh] overflow-y-auto">
+      <Modal
+        open={modalOpen}
+        onClose={() => setModalOpen(false)}
+        title="Add Game"
+        footer={
+          <Button className="w-full" onClick={handleSave} disabled={saving || !opponent}>
+            {saving ? 'Saving...' : 'Save Game'}
+          </Button>
+        }
+      >
+        <div className="space-y-4">
           <Input id="game-date" label="Date" type="date" value={date} onChange={(e) => setDate(e.target.value)} />
           <Input id="opponent" label="Opponent" placeholder="e.g., Dallas Mavericks AAU" value={opponent} onChange={(e) => setOpponent(e.target.value)} />
           <Input id="result" label="Result" placeholder="e.g., W 52-44" value={result} onChange={(e) => setResult(e.target.value)} />
           <div className="grid grid-cols-2 gap-3">
-            <Input id="points" label="Points" type="number" placeholder="0" value={points} onChange={(e) => setPoints(e.target.value)} />
-            <Input id="rebounds" label="Rebounds" type="number" placeholder="0" value={rebounds} onChange={(e) => setRebounds(e.target.value)} />
-            <Input id="assists" label="Assists" type="number" placeholder="0" value={assists} onChange={(e) => setAssists(e.target.value)} />
-            <Input id="steals" label="Steals" type="number" placeholder="0" value={steals} onChange={(e) => setSteals(e.target.value)} />
-            <Input id="fg-pct" label="FG%" type="number" placeholder="0" value={fgPct} onChange={(e) => setFgPct(e.target.value)} />
-            <Input id="ft-pct" label="FT%" type="number" placeholder="0" value={ftPct} onChange={(e) => setFtPct(e.target.value)} />
-            <Input id="minutes" label="Minutes" type="number" placeholder="0" value={minutes} onChange={(e) => setMinutes(e.target.value)} />
-            <Input id="blocks" label="Blocks" type="number" placeholder="0" value={blocks} onChange={(e) => setBlocks(e.target.value)} />
+            <Input id="points" label="Points" type="number" inputMode="numeric" placeholder="0" value={points} onChange={(e) => setPoints(e.target.value)} />
+            <Input id="rebounds" label="Rebounds" type="number" inputMode="numeric" placeholder="0" value={rebounds} onChange={(e) => setRebounds(e.target.value)} />
+            <Input id="assists" label="Assists" type="number" inputMode="numeric" placeholder="0" value={assists} onChange={(e) => setAssists(e.target.value)} />
+            <Input id="steals" label="Steals" type="number" inputMode="numeric" placeholder="0" value={steals} onChange={(e) => setSteals(e.target.value)} />
+            <Input id="fg-pct" label="FG%" type="number" inputMode="decimal" placeholder="0" value={fgPct} onChange={(e) => setFgPct(e.target.value)} />
+            <Input id="ft-pct" label="FT%" type="number" inputMode="decimal" placeholder="0" value={ftPct} onChange={(e) => setFtPct(e.target.value)} />
+            <Input id="minutes" label="Minutes" type="number" inputMode="numeric" placeholder="0" value={minutes} onChange={(e) => setMinutes(e.target.value)} />
+            <Input id="blocks" label="Blocks" type="number" inputMode="numeric" placeholder="0" value={blocks} onChange={(e) => setBlocks(e.target.value)} />
           </div>
-          <Button className="w-full" onClick={handleSave}>Save Game</Button>
         </div>
       </Modal>
     </>

@@ -70,7 +70,7 @@ export function EventTable() {
         <div className="overflow-x-auto -mx-5 px-5">
           <table className="w-full text-sm">
             <thead>
-              <tr className="border-b border-border-default">
+              <tr className="border-b border-glass-border">
                 <th className="text-left py-2.5 text-xs text-text-dim font-medium">Event</th>
                 <th className="text-right py-2.5 text-xs text-text-dim font-medium">PB</th>
                 <th className="text-right py-2.5 text-xs text-text-dim font-medium hidden sm:table-cell">Sectional</th>
@@ -83,7 +83,7 @@ export function EventTable() {
               {ELI_PBS.map((pb) => {
                 const StatusIcon = getStatusIcon(pb.status);
                 return (
-                  <tr key={pb.event} className="border-b border-border-default/50 hover:bg-bg-card-hover transition-colors">
+                  <tr key={pb.event} className="border-b border-glass-border/50 hover:bg-bg-card-hover transition-colors">
                     <td className="py-3 text-text-primary font-medium">{pb.event}</td>
                     <td className="py-3 text-right font-display text-lg tracking-wide" style={{ color: getStatusColor(pb.status) }}>
                       {pb.time}
@@ -113,7 +113,7 @@ export function EventTable() {
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
           {SPRINT_EVENTS.map((ev) => (
-            <div key={ev.event} className="rounded-lg border border-border-default bg-bg-secondary p-3 flex items-center justify-between">
+            <div key={ev.event} className="rounded-lg glass p-3 flex items-center justify-between">
               <div>
                 <p className="text-xs text-text-muted">{ev.event}</p>
                 <p className="font-display text-lg text-accent-sky tracking-wide">{ev.time}</p>

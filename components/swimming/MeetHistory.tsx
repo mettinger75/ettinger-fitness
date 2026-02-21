@@ -164,7 +164,7 @@ export function MeetHistory() {
         {MEETS.map((meet, idx) => {
           const isExpanded = expandedMeet === idx;
           return (
-            <div key={idx} className="rounded-lg border border-border-default overflow-hidden">
+            <div key={idx} className="rounded-lg border border-glass-border overflow-hidden">
               <button
                 onClick={() => setExpandedMeet(isExpanded ? -1 : idx)}
                 className="w-full flex items-center gap-3 p-3 hover:bg-bg-card-hover transition-colors text-left"
@@ -188,7 +188,7 @@ export function MeetHistory() {
                 )}
               </button>
               {isExpanded && (
-                <div className="border-t border-border-default bg-bg-secondary/50 p-3">
+                <div className="border-t border-glass-border bg-bg-secondary/50 p-3">
                   <div className="space-y-2">
                     {meet.results.map((r, i) => (
                       <div key={i} className="flex items-center justify-between text-sm">

@@ -47,7 +47,7 @@ export function RecentWods() {
                 </div>
               </div>
               {expanded === w.id && (
-                <div className="mt-4 space-y-4 border-t border-border-default pt-4">
+                <div className="mt-4 space-y-4 border-t border-glass-border pt-4">
                   {w.phases.map((phase, i) => (
                     <div key={i}>
                       <div className="flex justify-between mb-2">

@@ -31,21 +31,21 @@ export function AdminActions() {
 
       <Modal open={settingsOpen} onClose={() => setSettingsOpen(false)} title="System Settings">
         <div className="space-y-4">
-          <div className="flex items-center justify-between py-3 border-b border-border-default/50">
+          <div className="flex items-center justify-between py-3 border-b border-glass-border/50">
             <div>
               <p className="text-sm text-text-primary">Data Storage</p>
               <p className="text-xs text-text-dim">All data is stored locally in your browser</p>
             </div>
             <span className="text-xs text-accent-green font-medium">Local</span>
           </div>
-          <div className="flex items-center justify-between py-3 border-b border-border-default/50">
+          <div className="flex items-center justify-between py-3 border-b border-glass-border/50">
             <div>
               <p className="text-sm text-text-primary">Family Members</p>
               <p className="text-xs text-text-dim">Active profiles in the system</p>
             </div>
             <span className="text-xs text-text-primary font-medium">5</span>
           </div>
-          <div className="flex items-center justify-between py-3 border-b border-border-default/50">
+          <div className="flex items-center justify-between py-3 border-b border-glass-border/50">
             <div>
               <p className="text-sm text-text-primary">Theme</p>
               <p className="text-xs text-text-dim">Dark mode (default)</p>

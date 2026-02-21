@@ -21,7 +21,7 @@ export function UserTable() {
       <div className="overflow-x-auto">
         <table className="w-full text-sm">
           <thead>
-            <tr className="border-b border-border-default">
+            <tr className="border-b border-glass-border">
               <th className="text-left py-2.5 text-xs text-text-dim font-medium">User</th>
               <th className="text-left py-2.5 text-xs text-text-dim font-medium">Role</th>
               <th className="text-left py-2.5 text-xs text-text-dim font-medium hidden sm:table-cell">Sports</th>
@@ -35,7 +35,7 @@ export function UserTable() {
                 <tr
                   key={user.id}
                   onClick={() => handleRowClick(user.id)}
-                  className="border-b border-border-default/50 hover:bg-bg-card-hover transition-colors cursor-pointer"
+                  className="border-b border-glass-border/50 hover:bg-bg-card-hover transition-colors cursor-pointer"
                 >
                   <td className="py-3">
                     <div className="flex items-center gap-2.5">

@@ -29,7 +29,7 @@ export function SplitAnalysis() {
         <p className="text-xs uppercase tracking-widest text-text-dim mb-3">Spring 2026 Targets</p>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           {SPRING_2026_GOALS.map((goal) => (
-            <div key={goal.event} className="rounded-lg border border-border-default bg-bg-secondary p-3">
+            <div key={goal.event} className="rounded-lg glass p-3">
               <div className="flex items-center justify-between mb-1">
                 <p className="text-sm font-medium text-text-primary">{goal.event}</p>
                 <Badge label={goal.target} color="#C9A227" />

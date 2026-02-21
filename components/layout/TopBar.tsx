@@ -8,7 +8,7 @@ export function TopBar() {
   const toggleMobileSidebar = useAppStore((s) => s.toggleMobileSidebar);
 
   return (
-    <header className="sticky top-0 z-30 h-16 border-b border-border-default bg-bg-primary/80 backdrop-blur-md flex items-center justify-between px-4 lg:px-6">
+    <header className="sticky top-0 z-30 h-16 border-b border-glass-border bg-bg-primary/60 backdrop-blur-xl flex items-center justify-between px-4 lg:px-6">
       <div className="flex items-center gap-3">
         <button
           onClick={toggleMobileSidebar}
